@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Para Ali 🎀</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF6F8;
+    --blush:#FFE1EC;
+    --pink:#FF9EC4;
+    --rose:#E85D91;
+    --plum:#6B2C43;
+    --gold:#F7C6D9;
+    --white:#FFFFFF;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Quicksand', sans-serif;
+    background:var(--cream);
+    color:var(--plum);
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fredoka', sans-serif;
+  }
+  section{
+    min-height:100svh;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:48px 24px;
+    position:relative;
+  }
+
+  /* ---------- Bow (moño) shape, reused as signature motif ---------- */
+  .bow{
+    width:40px; height:24px;
+    display:inline-block;
+  }
+  .bow svg{width:100%; height:100%;}
+
+  /* ---------- COVER ---------- */
+  #cover{
+    background:linear-gradient(160deg, var(--blush) 0%, var(--pink) 100%);
+    text-align:center;
+    cursor:pointer;
+  }
+  #cover .bow-big{
+    width:110px; height:66px;
+    margin-bottom:28px;
+    animation:float 3.5s ease-in-out infinite;
+  }
+  @keyframes float{
+    0%,100%{transform:translateY(0) rotate(-3deg);}
+    50%{transform:translateY(-14px) rotate(3deg);}
+  }
+  #cover h1{
+    font-size:clamp(2.2rem, 9vw, 3.2rem);
+    color:var(--white);
+    text-shadow:0 3px 0 rgba(107,44,67,0.25);
+    line-height:1.15;
+  }
+  #cover p{
+    margin-top:14px;
+    font-size:1.05rem;
+    color:var(--white);
+    opacity:0.95;
+  }
+  #cover .tap{
+    margin-top:46px;
+    font-size:0.95rem;
+    letter-spacing:0.02em;
+    color:var(--white);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:0.55;}
+    50%{opacity:1;}
+  }
+  #cover.hide{
+    animation:coverOut 0.7s ease forwards;
+    pointer-events:none;
+  }
+  @keyframes coverOut{
+    to{opacity:0; transform:scale(1.05); visibility:hidden;}
+  }
+
+  /* ---------- Reveal-on-scroll utility ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.in{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  /* ---------- INTRO ---------- */
+  #intro{background:var(--cream);}
+  #intro .eyebrow-bow{margin-bottom:18px;}
+  #intro h2{
+    font-size:clamp(1.6rem, 6vw, 2.2rem);
+    text-align:center;
+    max-width:20ch;
+    line-height:1.3;
+  }
+  #intro p{
+    margin-top:16px;
+    text-align:center;
+    max-width:32ch;
+    color:#8A4B63;
+    font-size:1rem;
+  }
+
+  /* ---------- TIMELINE ---------- */
+  #timeline{
+    background:var(--blush);
+    padding-top:64px;
+    padding-bottom:64px;
+  }
+  #timeline h2{
+    font-size:clamp(1.6rem, 6vw, 2rem);
+    margin-bottom:48px;
+    text-align:center;
+  }
+  .path{
+    position:relative;
+    width:100%;
+    max-width:420px;
+  }
+  .path::before{
+    content:'';
+    position:absolute;
+    left:50%;
+    top:0;
+    bottom:0;
+    width:3px;
+    background:repeating-linear-gradient(to bottom, var(--pink) 0 10px, transparent 10px 20px);
+    transform:translateX(-50%);
+  }
+  .moment{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    margin-bottom:56px;
+  }
+  .moment:last-child{margin-bottom:0;}
+  .moment-card{
+    background:var(--white);
+    border-radius:22px;
+    padding:18px;
+    width:76%;
+    max-width:280px;
+    text-align:center;
+    box-shadow:0 10px 24px rgba(232,93,145,0.18);
+  }
+  .moment:nth-child(even) .moment-card{margin-right:auto; margin-left:0;}
+  .moment:nth-child(odd) .moment-card{margin-left:auto; margin-right:0;}
+  .photo-slot{
+    width:100%;
+    max-height:60vh;
+    border-radius:16px;
+    border:2px dashed var(--pink);
+    background:var(--blush);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--rose);
+    font-size:0.8rem;
+    text-align:center;
+    padding:10px;
+    margin-bottom:12px;
+    overflow:hidden;
+  }
+  .photo-slot img, .photo-slot video{width:100%; height:auto; max-height:60vh; object-fit:contain; border-radius:14px;}
+  .moment-date{
+    font-family:'Fredoka', sans-serif;
+    color:var(--rose);
+    font-size:0.85rem;
+    margin-bottom:4px;
+  }
+  .moment-text{font-size:0.92rem; color:var(--plum);}
+  .dot{
+    position:absolute;
+    top:12px;
+    left:50%;
+    transform:translateX(-50%);
+    width:14px; height:14px;
+    border-radius:50%;
+    background:var(--rose);
+    border:3px solid var(--white);
+    z-index:2;
+  }
+
+  /* ---------- LETTER ---------- */
+  #letter{
+    background:linear-gradient(160deg, var(--rose) 0%, var(--pink) 100%);
+    color:var(--white);
+    text-align:center;
+  }
+  #letter .bow{margin-bottom:22px;}
+  #letter h2{
+    font-size:clamp(1.5rem, 6vw, 2rem);
+    margin-bottom:24px;
+  }
+  #letter-text{
+    font-size:1.05rem;
+    line-height:1.7;
+    max-width:34ch;
+    min-height:220px;
+    text-align:left;
+  }
+  #letter-text .cursor{
+    display:inline-block;
+    width:2px; height:1.1em;
+    background:var(--white);
+    vertical-align:text-bottom;
+    animation:blink 0.9s steps(1) infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+  .signature{
+    margin-top:22px;
+    font-family:'Fredoka', sans-serif;
+    font-size:1.1rem;
+    align-self:flex-start;
+  }
+
+  /* ---------- GAME ---------- */
+  #game{
+    background:var(--cream);
+    overflow:hidden;
+  }
+  #game h2{
+    font-size:clamp(1.5rem, 6vw, 2rem);
+    text-align:center;
+    margin-bottom:6px;
+  }
+  #game p.sub{
+    text-align:center;
+    color:#8A4B63;
+    margin-bottom:8px;
+    max-width:30ch;
+  }
+  .counter{
+    font-family:'Fredoka', sans-serif;
+    color:var(--rose);
+    font-size:1rem;
+    margin-bottom:18px;
+  }
+  .game-field{
+    position:relative;
+    width:100%;
+    max-width:420px;
+    height:min(58vh, 420px);
+    background:var(--blush);
+    border-radius:24px;
+    overflow:hidden;
+  }
+  .hidden-bow{
+    position:absolute;
+    width:38px; height:23px;
+    cursor:pointer;
+    filter:drop-shadow(0 2px 4px rgba(107,44,67,0.25));
+    transition:transform 0.25s ease, opacity 0.25s ease;
+    background:none;
+    border:none;
+    padding:0;
+  }
+  .hidden-bow.found{
+    opacity:0;
+    transform:scale(0.3) rotate(30deg);
+    pointer-events:none;
+  }
+  .hidden-bow:not(.found):active{transform:scale(0.85);}
+
+  /* ---------- FINALE ---------- */
+  #finale{
+    background:linear-gradient(160deg, var(--pink) 0%, var(--rose) 100%);
+    color:var(--white);
+    text-align:center;
+    display:none;
+  }
+  #finale.show{
+    display:flex;
+    animation:fadeIn 0.9s ease;
+  }
+  @keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
+  #finale .bow-big{
+    width:100px; height:60px;
+    margin-bottom:24px;
+  }
+  #finale h2{
+    font-size:clamp(1.8rem, 8vw, 2.4rem);
+    line-height:1.25;
+    margin-bottom:16px;
+  }
+  #finale p{
+    max-width:32ch;
+    font-size:1.05rem;
+    line-height:1.6;
+    opacity:0.95;
+  }
+  #finale .replay{
+    margin-top:32px;
+    background:var(--white);
+    color:var(--rose);
+    border:none;
+    border-radius:999px;
+    padding:12px 28px;
+    font-family:'Fredoka', sans-serif;
+    font-size:0.95rem;
+    cursor:pointer;
+  }
+
+  /* falling hearts, cover only */
+  .heart{
+    position:fixed;
+    top:-10%;
+    font-size:1.2rem;
+    color:rgba(255,255,255,0.85);
+    pointer-events:none;
+    animation:fall linear forwards;
+    z-index:5;
+  }
+  @keyframes fall{
+    to{ transform:translateY(115vh) rotate(360deg); opacity:0; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<section id="cover">
+  <div class="bow-big">
+    <svg viewBox="0 0 110 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M55 33 C55 20 40 8 20 8 C8 8 3 18 3 26 C3 38 20 44 55 33 Z" fill="#FFFFFF"/>
+      <path d="M55 33 C55 20 70 8 90 8 C102 8 107 18 107 26 C107 38 90 44 55 33 Z" fill="#FFFFFF"/>
+      <circle cx="55" cy="33" r="10" fill="#E85D91"/>
+    </svg>
+  </div>
+  <h1>Para Ali 🎀</h1>
+  <p>Una sorpresa hecha con cariño</p>
+  <div class="tap">
+    <span class="bow">
+      <svg viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 12 C20 7 14 3 7 3 C3 3 1 6.5 1 10 C1 14 7 16.5 20 12 Z" fill="#FFFFFF"/>
+        <path d="M20 12 C20 7 26 3 33 3 C37 3 39 6.5 39 10 C39 14 33 16.5 20 12 Z" fill="#FFFFFF"/>
+        <circle cx="20" cy="12" r="3.5" fill="#E85D91"/>
+      </svg>
+    </span>
+    Toca para abrir tu sorpresa
+  </div>
+</section>
+
+<!-- ============ INTRO ============ -->
+<section id="intro">
+  <div class="eyebrow-bow bow">
+    <svg viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 12 C20 7 14 3 7 3 C3 3 1 6.5 1 10 C1 14 7 16.5 20 12 Z" fill="#FF9EC4"/>
+      <path d="M20 12 C20 7 26 3 33 3 C37 3 39 6.5 39 10 C39 14 33 16.5 20 12 Z" fill="#FF9EC4"/>
+      <circle cx="20" cy="12" r="3.5" fill="#E85D91"/>
+    </svg>
+  </div>
+  <h2 class="reveal">Feliz cumpleaños, mi Alis</h2>
+  <p class="reveal">Antes de tu regalo, quiero llevarte por un pequeño recorrido. Baja con cuidado 🎀</p>
+</section>
+
+<!-- ============ TIMELINE ============ -->
+<section id="timeline">
+  <h2 class="reveal">Nuestros momentos</h2>
+  <div class="path">
+
+    <div class="moment reveal">
+      <div class="dot"></div>
+      <div class="moment-card">
+        <div class="photo-slot" data-slot="1">
+          <!-- Cuando tengas el video, reemplaza "tu-video.mp4" por el nombre real del archivo -->
+          <video src="donde nos conocimos.mp4" autoplay loop muted playsinline></video>
+        </div>
+        <div class="moment-date">El día que nos conocimos</div>
+        <div class="moment-text">Esos dias en el mcdonals no los olvidare 💕</div>
+      </div>
+    </div>
+
+    <div class="moment reveal">
+      <div class="dot"></div>
+      <div class="moment-card">
+        <div class="photo-slot" data-slot="2">
+          <img src="foto2.jpeg" alt="Nuestro momento">
+        </div>
+        <div class="moment-date">Nuestra primera cita</div>
+        <div class="moment-text">No tengo foto de nuestra primera cita atras del tottus pero esta fue de las primeras 💕</div>
+      </div>
+    </div>
+
+    <div class="moment reveal">
+      <div class="dot"></div>
+      <div class="moment-card">
+        <div class="photo-slot" data-slot="3">
+          <img src="foto3.jpeg" alt="Nuestro momento">
+        </div>
+        <div class="moment-date">Un viaje que no olvidamos</div>
+        <div class="moment-text">Este paseo aunque fue cortito y estabas enojada y dijiste que no querias ir es de los mejores recuerdos que tengo 💕</div>
+      </div>
+    </div>
+
+    <div class="moment reveal">
+      <div class="dot"></div>
+      <div class="moment-card">
+        <div class="photo-slot" data-slot="4">
+          <img src="foto4.jpeg" alt="Nuestro momento">
+        </div>
+        <div class="moment-date">Hoy</div>
+        <div class="moment-text">Y hasta el dia de hoy seguimos teniendo momentos juntos 🎀</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ LETTER ============ -->
+<section id="letter">
+  <div class="bow">
+    <svg viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 12 C20 7 14 3 7 3 C3 3 1 6.5 1 10 C1 14 7 16.5 20 12 Z" fill="#FFFFFF"/>
+      <path d="M20 12 C20 7 26 3 33 3 C37 3 39 6.5 39 10 C39 14 33 16.5 20 12 Z" fill="#FFFFFF"/>
+      <circle cx="20" cy="12" r="3.5" fill="#E85D91"/>
+    </svg>
+  </div>
+  <h2>Una carta para ti</h2>
+  <div id="letter-text"></div>
+</section>
+
+<!-- ============ GAME ============ -->
+<section id="game">
+  <h2 class="reveal">Encuentra los moños escondidos</h2>
+  <p class="sub reveal">Hay 5 moños escondidos en el recuadro. Tócalos todos para desbloquear tu sorpresa final</p>
+  <div class="counter reveal"><span id="found-count">0</span> / 5 encontrados</div>
+  <div class="game-field" id="game-field"></div>
+</section>
+
+<!-- ============ FINALE ============ -->
+<section id="finale">
+  <div class="bow-big">
+    <svg viewBox="0 0 110 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M55 33 C55 20 40 8 20 8 C8 8 3 18 3 26 C3 38 20 44 55 33 Z" fill="#FFFFFF"/>
+      <path d="M55 33 C55 20 70 8 90 8 C102 8 107 18 107 26 C107 38 90 44 55 33 Z" fill="#FFFFFF"/>
+      <circle cx="55" cy="33" r="10" fill="#E85D91"/>
+    </svg>
+  </div>
+  <h2>Tu sorpresa real</h2>
+  <p>Despues de todo este trayecto desde nuestos momentos juntos hasta tu cartita de cumpleaños llega el momento de tu sorpresa jajaa, y ya lo sabes mañana iremos de compras 
+    para que puedas elegir las cositas de katteyes que me dijiste queria que fuese sorpresa pero es mejor que las elija usted. <br> Te Amo mi princesa 🎁</p>
+  <button class="replay" id="replay-btn">Ver todo de nuevo</button>
+</section>
+
+<script>
+  // ---------- Reveal on scroll ----------
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+  }, {threshold:0.2});
+  revealEls.forEach(el=>io.observe(el));
+
+  // ---------- Cover tap ----------
+  const cover = document.getElementById('cover');
+  cover.addEventListener('click', ()=>{
+    cover.classList.add('hide');
+    for(let i=0;i<18;i++){
+      setTimeout(()=>spawnHeart(), i*80);
+    }
+    setTimeout(()=>{ document.getElementById('intro').scrollIntoView({behavior:'smooth'}); }, 500);
+  });
+  function spawnHeart(){
+    const h = document.createElement('div');
+    h.className='heart';
+    h.textContent = Math.random()>0.5 ? '💗':'🎀';
+    h.style.left = Math.random()*100+'vw';
+    h.style.fontSize = (0.9+Math.random()*1.2)+'rem';
+    const dur = 2.5+Math.random()*2;
+    h.style.animationDuration = dur+'s';
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(), dur*1000+100);
+  }
+
+  // ---------- Typewriter letter ----------
+  const letterMessage = `mi osita polar ❤️,
+
+Hoy cumples 20 años y quiero aprovechar este día para recordarte lo mucho que te amo y lo importante que eres para mí.
+
+Amo tu personalidad, tus risas, tu mirada, tus cariños y hasta tus enojos jajaja. Amo verte feliz, especialmente cuando aparece esa niña interior tan dulce, tierna y delicada que llevas dentro, aunque tú no te des cuenta de lo hermosa que eres en esos momentos.
+
+Quiero que sepas que siempre voy a apoyarte. En tus sueños, en tus decisiones, en tus días buenos y también en los malos. No tienes que ser perfecta ni tener todo resuelto; solo quiero que sigas siendo tú y que nunca olvides cuánto vales.
+
+Contigo descubrí algo que nunca había sentido de la misma manera: que podía ser importante para alguien. Y por eso quiero seguir cuidándote, acompañándote y construyendo un futuro a tu lado.
+
+Deseo que estos 20 años sean el comienzo de una etapa llena de felicidad, sueños cumplidos y momentos hermosos.
+
+Feliz cumpleaños, mi osita polar. 🐻‍❄️❤️
+
+Te amo muchísimo, y espero poder celebrar contigo muchos, muchísimos cumpleaños más.
+
+Te amo,`;
+  const letterEl = document.getElementById('letter-text');
+  let li = 0;
+  let typed = false;
+  function typeLetter(){
+    if(typed) return;
+    typed = true;
+    const cursor = document.createElement('span');
+    cursor.className='cursor';
+    function step(){
+      if(li <= letterMessage.length){
+        letterEl.textContent = letterMessage.slice(0, li);
+        letterEl.appendChild(cursor);
+        li++;
+        setTimeout(step, 22);
+      }
+    }
+    step();
+  }
+  const letterSection = document.getElementById('letter');
+  const letterIO = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting) typeLetter(); });
+  }, {threshold:0.4});
+  letterIO.observe(letterSection);
+
+  // ---------- Hidden bow game ----------
+  const field = document.getElementById('game-field');
+  const bowSVG = `<svg viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20 12 C20 7 14 3 7 3 C3 3 1 6.5 1 10 C1 14 7 16.5 20 12 Z" fill="#E85D91"/>
+      <path d="M20 12 C20 7 26 3 33 3 C37 3 39 6.5 39 10 C39 14 33 16.5 20 12 Z" fill="#E85D91"/>
+      <circle cx="20" cy="12" r="3.5" fill="#FFFFFF"/>
+    </svg>`;
+  const positions = [
+    {top:'8%', left:'10%'}, {top:'20%', left:'70%'}, {top:'55%', left:'20%'},
+    {top:'70%', left:'65%'}, {top:'42%', left:'45%'}
+  ];
+  let found = 0;
+  positions.forEach((pos, idx)=>{
+    const b = document.createElement('button');
+    b.className = 'hidden-bow';
+    b.style.top = pos.top;
+    b.style.left = pos.left;
+    b.style.transform = `rotate(${Math.random()*40-20}deg)`;
+    b.innerHTML = bowSVG;
+    b.addEventListener('click', ()=>{
+      if(b.classList.contains('found')) return;
+      b.classList.add('found');
+      found++;
+      document.getElementById('found-count').textContent = found;
+      if(found === positions.length){
+        setTimeout(()=>{
+          document.getElementById('finale').classList.add('show');
+          document.getElementById('finale').scrollIntoView({behavior:'smooth'});
+        }, 500);
+      }
+    });
+    field.appendChild(b);
+  });
+
+  // ---------- Replay ----------
+  document.getElementById('replay-btn').addEventListener('click', ()=>{
+    document.getElementById('cover').scrollIntoView({behavior:'smooth'});
+  });
+</script>
+</body>
+</html>
